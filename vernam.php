@@ -63,12 +63,7 @@ function vernam($data, $key) {
 		# iterate vernam
 		$output = vernamSlow($data, $key);
 	}
-
-	# sanitize to prevent code injections through plain texts
-	$output = trim($output);
-	$output = stripslashes($output);
-	$output = htmlspecialchars($output);
-
+	
 	return $output;
 }
 ?>
