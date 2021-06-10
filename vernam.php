@@ -66,8 +66,8 @@ function vernam($data, $key) {
 
 	# sanitize to prevent code injections through plain texts
 	$output = trim($output);
-  $output = stripslashes($output);
-  $output = htmlspecialchars($output);
+	$output = stripslashes($output);
+	$output = htmlspecialchars($output);
 
 	return $output;
 }
