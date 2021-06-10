@@ -12,15 +12,15 @@ Vernam cipher is also called an unbreakable cipher, as long as the key is kept s
 
 include "vernam.php";
 
-$salt = "b8d285ce189d4e06a884053a4cede2bde6bb81242354b500aac3360a4344a2c0";
+$key = "b8d285ce189d4e06a884053a4cede2bde6bb81242354b500aac3360a4344a2c0";
 
 $text = "The quick brown fox jumps over the lazy dog.";
 
-$cipher = vernam ( $text, $salt ); # Encoding
+$cipher = vernam ( $text, $key ); # Encoding
 
 echo $cipher;
 
-$plain = vernam ( $cipher, $salt ); # Decoding
+$plain = vernam ( $cipher, $key ); # Decoding
 
 echo $plain;
 
@@ -30,15 +30,15 @@ include "vernam-class.php";
 
 $text = "A long black shadow slid across the pavement near their feet and the five Venusians, very much startled, looked overhead. They were barely in time to see the huge gray form of the carnivore before it vanished behind a sign atop a nearby building.";
 
-$salt = "0c5e096996e96407238d8c02c473844449187d3f98ef618c84a4a316cedce58b";
+$key = "0c5e096996e96407238d8c02c473844449187d3f98ef618c84a4a316cedce58b";
 
-$res = new Vernam( $text, $salt ); # Encoding
+$res = new Vernam( $text, $key ); # Encoding
 
 $cipher = (string)$res;
 
 echo $cipher;
 
-$res = new Vernam( $text, $salt ); # Decoding
+$res = new Vernam( $text, $key ); # Decoding
 
 $plain = (string)$res;
 
