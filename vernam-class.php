@@ -2,48 +2,47 @@
 # By Engr. Emman Lijesta, ECE
 # www.kiddyyep.com
 # Vernam Cipher is an unbreakable encryption method,
-# as long as the key or salt is not discovered for decoding it
+# as long as the key is not discovered for decoding it
 # used for encoding/decoding plain text
 #
 # How to use:
 #
 # Encoding
-# $var = new Vernam( $text, $salt );
+# $var = new Vernam( $text, $key );
 # $cipher = (string)$var;
 # echo $cipher;
 #
 # Decoding
-# $var = new Vernam( $cipher, $salt );
+# $var = new Vernam( $cipher, $key );
 # $plain = (string)$var;
 # echo $plain;
 
 class Vernam {
 	public $text;
-	public $salt;
+	public $key;
 	public $bytes;
 
-	function __construct( $text, $salt, $bytes = 256 ) {
+	function __construct( $text, $key, $bytes = 256 ) {
 		$this->text = $text;
-		$this->salt = $salt;
+		$this->key = $key;
 		$this->bytes = $bytes;
 		$this->textNew = str_split($text);
 		$this->textLen = strlen($text);
-		$this->saltLen = strlen($salt);
+		$this->keyLen = strlen($key);
 		$this->len = 0;
 	}
 
 	private function slow() {
-		# iteration is not limited by maximum call stack size
 		if ($this->textLen <= 5000) {
 			# foreach is fast for 5000 characters and below
-			foreach( $this->textNew as $key=>$value ) {
-				$this->textNew[$key] = $value ^ $this->salt[$key % $this->saltLen];
+			foreach( $this->textNew as $k=>$value ) {
+				$this->textNew[$k] = $value ^ $this->key[$k % $this->keyLen];
 			}
 		} else {
 			--$this->len;
 			# while is fast for 5000 characters and above, it's great for huge data
 			while ( ++$this->len < $this->textLen ) {
-				$this->textNew[$this->len] = $this->text[$this->len] ^ $this->salt[$this->len % $this->saltLen];
+				$this->textNew[$this->len] = $this->text[$this->len] ^ $this->key[$this->len % $this->keyLen];
 			}
 		}
 
@@ -51,8 +50,7 @@ class Vernam {
 	}
 
 	private function fast() {
-		# recursive function is fast, but is limited by maximum call stack size
-		$this->textNew[$this->len] = $this->text[$this->len] ^ $this->salt[$this->len % $this->saltLen];
+		$this->textNew[$this->len] = $this->text[$this->len] ^ $this->key[$this->len % $this->keyLen];
 		return (++$this->len < $this->textLen) ? $this->fast() : implode('', $this->textNew);
 	}
 
