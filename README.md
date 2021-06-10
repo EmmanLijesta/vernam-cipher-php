@@ -10,34 +10,22 @@ Vernam cipher is also called an unbreakable cipher, as long as the key is kept s
 
 # How to use (vernam.php):
 
-vernam( $data, $key );
-
-<?php
 include "vernam.php";
 
 $key = "b8d285ce189d4e06a884053a4cede2bde6bb81242354b500aac3360a4344a2c0";
 
 $data = "The quick brown fox jumps over the lazy dog.";
 
-# Encoding:
-
-$cipher = vernam ( $data, $key );
+$cipher = vernam ( $data, $key ); # Encoding
 
 echo $cipher;
 
-# Decoding:
-
-$plain = vernam ( $cipher, $key);
+$plain = vernam ( $cipher, $key); # Decoding
 
 echo $plain;
-?>
-
 
 # How to use (vernam-class.php):
 
-$res = new Vernam( $data, $key, $limit );
-
-<?php
 include "vernam-class.php";
 
 $data = "A long black shadow slid across the pavement near their feet and the five Venusians, very much startled, looked overhead. They were barely in time to see the huge gray form of the carnivore before it vanished behind a sign atop a nearby building.";
@@ -46,19 +34,14 @@ $key = "0c5e096996e96407238d8c02c473844449187d3f98ef618c84a4a316cedce58b";
 
 $limit = 256; # 256 bytes
 
-# Encoding:
-
-$res = new Vernam( $data, $key, $limit );
+$res = new Vernam( $data, $key, $limit ); # Encoding
 
 $cipher = (string)$res;
 
 echo $cipher;
 
-# Decoding:
-
-$res = new Vernam( $cipher, $key, $limit );
+$res = new Vernam( $cipher, $key, $limit ); # Decoding
 
 $plain = (string)$res;
 
 echo $plain;
-?>
