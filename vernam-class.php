@@ -34,7 +34,7 @@ class Vernam {
 
 	private function slow() {
 		# iteration is not limited by maximum call stack size
-		if ($this->bytes <= 5000) {
+		if ($this->textLen <= 5000) {
 			# foreach is fast for 5000 characters and below
 			foreach( $this->textNew as $key=>$value ) {
 				$this->textNew[$key] = $value ^ $this->salt[$key % $this->saltLen];
