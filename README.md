@@ -26,13 +26,19 @@ $data = "A long black shadow slid across the pavement near their feet and the fi
 
 $key = "0c5e096996e96407238d8c02c473844449187d3f98ef618c84a4a316cedce58b";
 
-$res = new Vernam( $data, $key, 256 );
+$limit = 256;
+
+Encoding:
+
+$res = new Vernam( $data, $key, $limit );
 
 $cipher = (string)$res;
 
 echo $cipher;
 
-$res = new Vernam( $cipher, $key, 256 );
+Decoding:
+
+$res = new Vernam( $cipher, $key, $limit );
 
 $plain = (string)$res;
 
