@@ -9,13 +9,13 @@
 # for encoding - vernam( "plain text" , "YOURKEYHERE" ) returns "CIPHERTEXT"
 # for decoding - vernam( "CIPHERTEXT" , "YOURKEYHERE" ) returns "plain text"
 
-function slow($text, $salt, $bytes) {
+function slow($text, $salt) {
 	$textLen = strlen($text);
 	$saltLen = strlen($salt);
 	$textNew = str_split($text);
 	$len = -1;
 
-	if ($bytes <= 5000) {
+	if ($textLen <= 5000) {
 		# foreach is fast for 5000 characters and below
 		foreach( $textNew as $key=>$value ) {
 			$textNew[$key] = $value ^ $salt[$key % $saltLen];
