@@ -48,11 +48,9 @@ function vernamFast($data, $key, $output = array()) {
 }
 
 # use both iteration and recursive method depending on the size of the string for performance
-function vernam($data, $key) {
-	# 1 character = 1 byte, 256 char = 256 bytes
-	# for 512MB with 256 bytes will be able to handle 2M calls to this function
-	$limit = 256;
-
+# 1 character = 1 byte, 256 char = 256 bytes
+# for 512MB with 256 bytes will be able to handle 2M calls to this function
+function vernam($data, $key, $limit = 256) {
 	$output = "";
 
 	if (strlen($data) <= $limit) {
