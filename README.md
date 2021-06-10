@@ -12,15 +12,15 @@ Vernam cipher is also called an unbreakable cipher, as long as the key is kept s
 
 include "vernam.php";
 
-$key = "b8d285ce189d4e06a884053a4cede2bde6bb81242354b500aac3360a4344a2c0";
+$salt = "b8d285ce189d4e06a884053a4cede2bde6bb81242354b500aac3360a4344a2c0";
 
-$data = "The quick brown fox jumps over the lazy dog.";
+$text = "The quick brown fox jumps over the lazy dog.";
 
-$cipher = vernam ( $data, $key ); # Encoding
+$cipher = vernam ( $text, $salt ); # Encoding
 
 echo $cipher;
 
-$plain = vernam ( $cipher, $key); # Decoding
+$plain = vernam ( $cipher, $salt ); # Decoding
 
 echo $plain;
 
@@ -28,19 +28,17 @@ echo $plain;
 
 include "vernam-class.php";
 
-$data = "A long black shadow slid across the pavement near their feet and the five Venusians, very much startled, looked overhead. They were barely in time to see the huge gray form of the carnivore before it vanished behind a sign atop a nearby building.";
+$text = "A long black shadow slid across the pavement near their feet and the five Venusians, very much startled, looked overhead. They were barely in time to see the huge gray form of the carnivore before it vanished behind a sign atop a nearby building.";
 
-$key = "0c5e096996e96407238d8c02c473844449187d3f98ef618c84a4a316cedce58b";
+$salt = "0c5e096996e96407238d8c02c473844449187d3f98ef618c84a4a316cedce58b";
 
-$limit = 256; # 256 bytes
-
-$res = new Vernam( $data, $key, $limit ); # Encoding
+$res = new Vernam( $text, $salt ); # Encoding
 
 $cipher = (string)$res;
 
 echo $cipher;
 
-$res = new Vernam( $cipher, $key, $limit ); # Decoding
+$res = new Vernam( $text, $salt ); # Decoding
 
 $plain = (string)$res;
 
