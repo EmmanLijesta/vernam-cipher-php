@@ -1,7 +1,7 @@
 # Vernam Cipher in PHP
 A high performance vernam cipher in PHP for encoding and decoding plain texts to cipher text. Used in private messaging, cookies and more.
 
-How to use (vernam.php):
+# How to use (vernam.php):
 
 vernam( $data, $key );
 
@@ -18,7 +18,7 @@ Decoding:
 $plain = vernam ( $cipher, $key);
 
 
-How to use (vernam-class.php)
+# How to use (vernam-class.php):
 
 $res = new Vernam( $data, $key, $limit );
 
