@@ -2,86 +2,62 @@
 # By Engr. Emman Lijesta, ECE
 # www.kiddyyep.com
 # Vernam Cipher is an unbreakable encryption method,
-# as long as key is not discovered for decoding it
-# used for encoding/decoding plain
+# as long as the key or salt is not discovered for decoding it
+# used for encoding/decoding plain text
 #
-# How to use this class:
+# How to use:
 #
 # Encoding
-# $var = new Vernam( $data, $key, $limit);
+# $var = new Vernam( $text, $salt );
 # $cipher = (string)$var;
 # echo $cipher;
 #
 # Decoding
-# $var = new Vernam( $cipher, $key, $limit);
+# $var = new Vernam( $cipher, $salt );
 # $plain = (string)$var;
 # echo $plain;
 
 class Vernam {
-	public $data;
+	public $text;
 	public $salt;
-	public $limit;
-	public $output;
-	public $results;
+	public $bytes;
 
-	public function __construct( $data, $salt, $limit, $output = array() ) {
-		$this->data = $data;
+	function __construct( $text, $salt, $bytes = 256 ) {
+		$this->text = $text;
 		$this->salt = $salt;
-		$this->limit = $limit;
-		$this->output = $output;
+		$this->bytes = $bytes;
+		$this->textNew = str_split($text);
+		$this->textLen = strlen($text);
+		$this->saltLen = strlen($salt);
+		$this->len = 0;
 	}
 
-	public function vernamSlow() {
-		# Iteration version of Vernam that is slower than recursive,
-		# but without a call limit size and is great for huge data
-
-		# get string lengths
-		$dataLen = strlen($this->data);
-		$keyLen = strlen($this->salt);
-
-		# let results be an array of data to have same type and length
-		$results = $this->data;
-
-		# iterate from 0 to data length
-		for ($i = 0; $i < $dataLen; $i++) {
-			# the modulo generates a random ID from 0 to length of key
-			$results[$i] = $this->data[$i] ^ $this->salt[$i % $keyLen];
-		}
-
-		return $results;
-	}
-
-	public function vernamFast() {
-		# recursive is faster but there is a call limit stack size
-		# in PHP limited by RAM ex. 512MB for basic server plans
-
-		# get string and array lengths
-		$dataLen = strlen($this->data);
-		$keyLen = strlen($this->salt);
-		$outputLen = count($this->output);
-
-		# if less than data length then continue recursion
-		if ($outputLen < $dataLen) {
-			array_push($this->output, $this->data[$outputLen] ^ $this->salt[$outputLen % $keyLen]);
-			return $this->vernamFast();
-
+	private function slow() {
+		# iteration is not limited by maximum call stack size
+		if ($this->bytes <= 5000) {
+			# foreach is fast for 5000 characters and below
+			foreach( $this->textNew as $key=>$value ) {
+				$this->textNew[$key] = $value ^ $this->salt[$key % $this->saltLen];
+			}
 		} else {
-			# converts array to string
-			return implode('', $this->output);
+			--$this->len;
+			# while is fast for 5000 characters and above, it's great for huge data
+			while ( ++$this->len < $this->textLen ) {
+				$this->textNew[$this->len] = $this->text[$this->len] ^ $this->salt[$this->len % $this->saltLen];
+			}
 		}
+
+		return implode('', $this->textNew);
 	}
 
-	public function __toString() {
-		if (strlen($this->data) <= $this->limit) {
-			# recursive vernam
-			$this->results = $this->vernamFast();
+	private function fast() {
+		# recursive function is fast, but is limited by maximum call stack size
+		$this->textNew[$this->len] = $this->text[$this->len] ^ $this->salt[$this->len % $this->saltLen];
+		return (++$this->len < $this->textLen) ? $this->fast() : implode('', $this->textNew);
+	}
 
-		} else {
-			# iterate vernam
-			$this->results = $this->vernamSlow();
-		}
-
-		return $this->results;
+	function __toString() {
+		return ($this->textLen <= $this->bytes) ? $this->fast() : $this->slow();
 	}
 }
 ?>
