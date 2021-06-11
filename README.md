@@ -43,3 +43,14 @@ $res = new Vernam( $text, $key ); # Decoding
 $plain = (string)$res;
 
 echo $plain;
+
+# Benchmark Performance in a Slow PC
+
+Windows 7 64Bit, 4GB RAM, Dual Core 2Ghz
+
+< 1500 chars in < 0.0009ms
+< 5000 chars in < 0.0039ms
+< 20000 chars in < 0.0079ms
+< 100000 chars in < 0.019ms
+< 200000 chars in < 0.079ms
+< 400000 chars in < 0.19ms
