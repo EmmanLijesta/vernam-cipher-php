@@ -15,13 +15,13 @@ function slow($text, $key) {
 	$textNew = str_split($text);
 	$len = -1;
 
-	if ($textLen <= 5000) {
-		# foreach is fast for 5000 characters and below
+	if ($textLen <= 200000) {
+		# foreach is fast for 200000 characters and below
 		foreach( $textNew as $k=>$value ) {
 			$textNew[$k] = $value ^ $key[$k % $keyLen];
 		}
 	} else {
-		# while is fast for 5000 characters and above, it's great for huge data
+		# while is fast for 200000 characters above, it's great for huge data
 		while ( ++$len < $textLen ) {
 			$textNew[$len] = $text[$len] ^ $key[$len % $keyLen];
 		}
@@ -30,23 +30,21 @@ function slow($text, $key) {
 	return implode('', $textNew);
 }
 
-function fastSub($text, $key, $textNew, $len, $textLen, $keyLen) {
+function fast() {
 	# recursive function is faster but restricted by maximum stack size limit
-	$textNew[] = $text[$len] ^ $key[$len % $keyLen];
-	return (++$len < $textLen) ? fastSub($text, $key, $textNew, $len, $textLen, $keyLen) : implode('', $textNew);
+	$GLOBALS["textNew"][] = $GLOBALS["textSam"][$GLOBALS["myLen"]] ^ $GLOBALS["keySam"][$GLOBALS["myLen"] % $GLOBALS["keyLen"]];
+	return (++$GLOBALS["myLen"] < $GLOBALS["textLen"]) ? fast() : implode('', $GLOBALS["textNew"]);
 }
 
-function fast($text, $key, $len = 0) {
-	# declare these variables once to avoid overheads
-	$textLen = strlen($text);
-	$keyLen = strlen($key);
-	$textNew = array();
+function vernam($text, $key, $bytes = 1500) {
+	# declare these variables globally to avoid overheads
+	$GLOBALS["textSam"] = $text;
+	$GLOBALS["keySam"] = $key;
+	$GLOBALS["textLen"] = strlen($text);
+	$GLOBALS["keyLen"] = strlen($key);
+	$GLOBALS["textNew"] = array();
+	$GLOBALS["myLen"] = 0;
 
-	# do recursion
-	return fastSub($text, $key, $textNew, $len, $textLen, $keyLen);
-}
-
-function vernam($text, $key, $bytes = 256) {
-	return (strlen($text) <= $bytes) ? fast($text, $key) : slow($text, $key, $bytes);
+	return (strlen($text) <= $bytes) ? fast() : slow($text, $key, $bytes);
 }
 ?>
