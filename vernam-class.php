@@ -22,7 +22,7 @@ class Vernam {
 	public $key;
 	public $bytes;
 
-	function __construct( $text, $key, $bytes = 256 ) {
+	function __construct( $text, $key, $bytes = 1500 ) {
 		$this->text = $text;
 		$this->key = $key;
 		$this->bytes = $bytes;
@@ -33,14 +33,14 @@ class Vernam {
 	}
 
 	private function slow() {
-		if ($this->textLen <= 5000) {
-			# foreach is fast for 5000 characters and below
+		if ($this->textLen <= 200000) {
+			# foreach is fast for 200000 characters and below
 			foreach( $this->textNew as $k=>$value ) {
 				$this->textNew[$k] = $value ^ $this->key[$k % $this->keyLen];
 			}
 		} else {
 			--$this->len;
-			# while is fast for 5000 characters and above, it's great for huge data
+			# while is fast for 200000 characters above, it's great for huge data
 			while ( ++$this->len < $this->textLen ) {
 				$this->textNew[$this->len] = $this->text[$this->len] ^ $this->key[$this->len % $this->keyLen];
 			}
