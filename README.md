@@ -14,6 +14,10 @@ Vcrypt sanitizes the text from common code injections and compresses before appl
 
 include "vernam-class.php";
 
+$text = "Turning away from the ledge, he started slowly down the mountain, deciding that he would, that very night, satisfy his curiosity about the man-house.";
+
+$key = "f0971dbfe2ca3c75b4dac60f087670f2caa19781057abb432a24daee6c915e93";
+
 Encoding
 
 $res = new Vcrypt($text, $key);
