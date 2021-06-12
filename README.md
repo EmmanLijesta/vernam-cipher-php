@@ -8,6 +8,28 @@ Vernam also patented a "Secret Signaling System" in July 22, 1919. The NSA has c
 
 Vernam cipher is also called an unbreakable cipher, as long as the key is kept secret.
 
+# How to Use Vcrypt:
+
+Vcrypt sanitizes the text from common code injections and compresses before applying the Vernam Cipher. Thus, provides double security with compression. Average compression for 1500 characters is 48% and processes in <= 0.001ms .
+
+include "vernam-class.php";
+
+Encoding
+
+$res = new Vcrypt($text, $key);
+
+$enc = $res->encode();
+
+echo $enc . "<br>";
+
+Decoding
+
+$res = new Vcrypt($enc, $key);
+
+$dec = $res->decode();
+
+echo $dec;
+
 # How to use (vernam.php):
 
 include "vernam.php";
@@ -49,8 +71,13 @@ echo $plain;
 Windows 7 64Bit, 4GB RAM, Dual Core 2Ghz
 
 < 1500 chars in < 0.0009ms
+
 < 5000 chars in < 0.0039ms
+
 < 20000 chars in < 0.0079ms
+
 < 100000 chars in < 0.019ms
+
 < 200000 chars in < 0.079ms
+
 < 400000 chars in < 0.19ms
