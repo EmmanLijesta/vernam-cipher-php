@@ -84,7 +84,7 @@ class Vcrypt extends Vernam {
 	}
 
 	function decode() {
-		# decompress the text and decrypt with Vernam
+		# decrypts with Vernam and decompress the text
 		$this->text = $this->slow();
 		return gzinflate($this->text);
 	}
