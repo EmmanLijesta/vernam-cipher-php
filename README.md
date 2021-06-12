@@ -20,7 +20,7 @@ $res = new Vcrypt($text, $key);
 
 $enc = $res->encode();
 
-echo $enc . "<br>";
+echo $enc;
 
 Decoding
 
