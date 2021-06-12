@@ -1,5 +1,5 @@
 # Vernam Cipher in PHP
-A high performance vernam cipher in PHP for encoding and decoding plain texts to cipher text. Used in private messaging, cookies and more.
+A high performance vernam cipher with compression in PHP for encoding and decoding plain texts to cipher text. Used in private messaging, cookies and more.
 
 # Credits to the Creator
 Vernam cipher, created by Gilber Sandford Vernam (3 April 1890 – 7 February 1960), is a symmetrical stream cipher in which the plaintext is combined with a random or pseudorandom stream of data (the "keystream") of the same length, to generate the ciphertext, using the XOR function. Though sounds simple, it is the only existing mathematically unbreakable encryption, and thus it provides very long-term message secrecy.
